@@ -80,8 +80,8 @@ configure_repo () {
 #   None
 #######################################
 prerequisite_software () {
-
-  yum install -y  wget net-tools vim-enhanced git curl sudo mlocate lsof vim telnet >>$LOG_FILE 2>&1 || log_warn "Unable to install misc tools"
+  log_info "Installing prerequisite tools"
+  yum install -y  sudo  >>$LOG_FILE 2>&1 || log_error "Unable to install misc tools"
   
   log_info "Install Oracle JDK"
   yum -y install oracle-j2sdk1.7.x86_64 >>$LOG_FILE 2>&1 || log_error "Failed to install Oracle"
@@ -242,7 +242,8 @@ prepare_hdfs () {
   sudo -E -u hdfs hdfs namenode -format >>$LOG_FILE 2>&1 || log_error "Failed to format the Namenode"
  
   log_info "Starting HDFS Namenode" 
-  /etc/init.d/hadoop-hdfs-namenode start >>$LOG_FILE 2>&1 || log_error "Unable to start Namenode"
+  #/etc/init.d/hadoop-hdfs-namenode start >>$LOG_FILE 2>&1 || log_error "Unable to start Namenode"
+  /etc/init.d/hadoop-hdfs-namenode start || log_error "Unable to start Namenode"
 
   log_info "Starting HDFS SecondaryNamenode"
   /etc/init.d/hadoop-hdfs-secondarynamenode start >>$LOG_FILE 2>&1 || log_error "Unable to start SecondaryNamenode"
@@ -357,7 +358,7 @@ nohup hiveserver2 >>$HIVE_LOG 2>&1  &
 configure_repo
 prerequisite_software
 install_configure_zookeeper
-install_impala
+#install_impala
 install_pseudo_conf
 prepare_hdfs
 install_hbase

@@ -8,8 +8,11 @@ ADD cdh_files/cdh.cfg /tmp/cdh.cfg
 
 ENV TERM xterm
  ADD cdh_files/solr /tmp/solr
- ADD cdh_files/yarn-site.xml /etc/hadoop/conf/yarn-site.xml
+# ADD cdh_files/yarn-site.xml /etc/hadoop/conf/yarn-site.xml
  ADD cdh_files/hbase-site.xml /etc/hbase/conf.dist/hbase-site.xml
+
+RUN chmod +x /tmp/install_cdh.sh && bash /tmp/install_cdh.sh
+
  # private and public mapping
  EXPOSE 2181:2181
  EXPOSE 8020:8020
